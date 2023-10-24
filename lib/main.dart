@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; //importing provider package
+import 'package:provider/provider.dart';
 
-import './providers/products_provider.dart'; // making our productsclass a provider by registering it inthis main file
+import './providers/products_provider.dart';
+import '../Screens/product_detail.dart';
 import '../Screens/product_overview.dart';
 
 void main() => runApp(MyAPP());
@@ -21,6 +22,9 @@ class MyAPP extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         home: ProductsOverviewScreen(),
+        routes: {
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+        },
       ),
     );
   }

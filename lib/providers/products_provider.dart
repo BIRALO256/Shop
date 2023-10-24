@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../Models/product.dart';
+
 class ProductProvider with ChangeNotifier {
   final List<Products> _items = [
     Products(
@@ -37,6 +39,10 @@ class ProductProvider with ChangeNotifier {
   ]; //private property (_)
   List<Products> get items {
     return [..._items]; // duplicate of the items
+  }
+
+  Products findbyId(String id) {
+    return _items.firstWhere((product) => product.id == id);
   }
 
   void addProducts() {
