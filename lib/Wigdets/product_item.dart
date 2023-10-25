@@ -14,41 +14,44 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Products>(context);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              ProductDetailScreen.routeName,
-              arguments: product.id,
-            );
-          },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-          ),
-        ),
-        footer: GridTileBar(
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-                product.isFavorite ? Icons.favorite_border : Icons.favorite),
-            color: Colors.orange.withOpacity(0.7),
-          ),
-          trailing: IconButton(
-            onPressed: () {
-              product.toggleFavoriteStatus();
+    // final product = Provider.of<Products>(context);
+    return Consumer<Products>(
+      //using conuser a listerner you the wigdet cahnges only nn this particular section but with provider it change thw whole of it
+      builder: (context, product, child) => ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                ProductDetailScreen.routeName,
+                arguments: product.id,
+              );
             },
-            icon: const Icon(Icons.shopping_cart),
-            color: Colors.orange.withOpacity(1),
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
+          footer: GridTileBar(
+            leading: IconButton(
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              color: Colors.orange.withOpacity(0.7),
+            ),
+            trailing: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.shopping_cart),
+              color: Colors.orange.withOpacity(1),
+            ),
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.black87,
           ),
-          backgroundColor: Colors.black87,
         ),
       ),
     );
