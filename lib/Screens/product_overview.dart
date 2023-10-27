@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/providers/cart.dart';
 
 import '../Wigdets/Product_grid.dart';
+import '../Wigdets/badge.dart';
 
 enum FilterProducts {
   favourite,
@@ -26,6 +29,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           PopupMenuButton(
             onSelected: (FilterProducts selected) {
               setState(() {
+                //Notify the framework that the internal state of this object has changed.
                 if (selected == FilterProducts.favourite) {
                   _showOnlyFavorites = true;
                 } else {
@@ -46,6 +50,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 value: FilterProducts.all,
               ),
             ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cartData, ch) => Badge(
+              child: ch,
+              value: cartData.itemAvailble.toString(),
+            ),
+            child: IconButton(
+              /// this will not be rebuild because it's defined outside the cart
+              onPressed: () {},
+              icon: const Icon(Icons.shopping_cart),
+            ),
           )
         ],
       ),

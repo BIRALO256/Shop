@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/providers/cart.dart';
 
 import './providers/products_provider.dart';
 import '../Screens/product_detail.dart';
@@ -10,10 +11,16 @@ void main() => runApp(MyAPP());
 class MyAPP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      //registering the provider using the common used provider "change notifier"
-      create: (context) =>
-          ProductProvider(), // this is the  instance of the provider (products class) that is registered
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          //registering the provider using the common used provider "change notifier"
+          create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MyShop',
@@ -21,7 +28,7 @@ class MyAPP extends StatelessWidget {
           primarySwatch: Colors.purple,
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: const ProductsOverviewScreen(),
         routes: {
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
         },
