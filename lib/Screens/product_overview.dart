@@ -52,15 +52,19 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ],
           ),
           Consumer<Cart>(
-            builder: (_, cartData, ch) => Badge(
-              child: ch,
-              value: cartData.itemAvailble.toString(),
+            builder: (_, cartData, ch) => BadgeIcon(
+              value: cartData.itemCount.toString(),
+              child: IconButton(
+                /// this will not be rebuild because it's defined outside the cart
+                onPressed: () {},
+                icon: const Icon(Icons.shopping_cart),
+              ),
             ),
-            child: IconButton(
-              /// this will not be rebuild because it's defined outside the cart
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_cart),
-            ),
+            // child: IconButton(
+            //   /// this will not be rebuild because it's defined outside the cart
+            //   onPressed: () {},
+            //   icon: const Icon(Icons.shopping_cart),
+            // ),
           )
         ],
       ),

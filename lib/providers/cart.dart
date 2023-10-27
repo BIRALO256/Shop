@@ -14,16 +14,16 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  late Map<String, CartItem> _items;
+  final Map<String, CartItem> _items = {};
   Map<String, CartItem> get items {
     //this  returns a copy of the map of cart items from the orignial map to avoid manuplation of the original map
     return {..._items};
   }
 
 //items in  the coart
-  int get itemAvailble {
+  int get itemCount {
     // ignore: unnecessary_null_comparison
-    return  _items == null? 0: _items.length;
+    return _items.length;
   }
 
   // function to add items in the Map
@@ -48,5 +48,6 @@ class Cart with ChangeNotifier {
               price: price,
               quatity: 1));
     }
+    notifyListeners();
   }
 }
