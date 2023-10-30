@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/providers/cart.dart'
     show
         Cart; // this means from this file only we need cart class the rest don't show it
+import 'package:shop/providers/orders.dart';
 
 import '../Wigdets/cart_item.dart';
 
@@ -35,14 +36,23 @@ class CartScreen extends StatelessWidget {
                     label: Text('\$${cart.totalAmount}'),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  const ButtonBar(
-                    children: [
-                      Text(
-                        'ORDER NOW',
-                        style: TextStyle(color: Colors.pink),
-                      )
-                    ],
+                  const SizedBox(
+                    width: 12,
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.items.values.toList(), cart.totalAmount);
+                      cart.clearCart();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink.shade300, // Button background color
+                    ),
+                    child: const Text(
+                      'ORDER NOW',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
                 ],
               ),
             ),
