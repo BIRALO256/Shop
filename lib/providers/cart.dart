@@ -26,6 +26,14 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
+  double get totalAmount {
+    var total = 0.0;
+    _items.forEach((key, CartItem) {
+      total += CartItem.quatity * CartItem.price;
+    });
+    return total;
+  }
+
   // function to add items in the Map
   void addItem(String productId, double price, String title) {
 // first checking if the product alreaddy exists in the cart so that we can only add the quatity of the product or add a new product to the cart

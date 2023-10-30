@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/Screens/cart_screen.dart';
 import 'package:shop/providers/cart.dart';
 
 import '../Wigdets/Product_grid.dart';
@@ -55,16 +56,12 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             builder: (_, cartData, ch) => BadgeIcon(
               value: cartData.itemCount.toString(),
               child: IconButton(
-                /// this will not be rebuild because it's defined outside the cart
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
                 icon: const Icon(Icons.shopping_cart),
               ),
             ),
-            // child: IconButton(
-            //   /// this will not be rebuild because it's defined outside the cart
-            //   onPressed: () {},
-            //   icon: const Icon(Icons.shopping_cart),
-            // ),
           )
         ],
       ),

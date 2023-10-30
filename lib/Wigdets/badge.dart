@@ -22,7 +22,7 @@ class BadgeIcon extends StatelessWidget {
             // color: Theme.of(context).accentColor,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: color ?? Theme.of(context).primaryColor,
+              color: color ?? Theme.of(context).primaryColorDark,
             ),
             constraints: const BoxConstraints(
               minWidth: 16,
