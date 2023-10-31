@@ -33,7 +33,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   const Spacer(), // this wigdet takes all the availble space to a given wigdet on the left
                   Chip(
-                    label: Text('\$${cart.totalAmount}'),
+                    label: Text('\$${cart.totalAmount.toStringAsFixed(2)}'),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   const SizedBox(

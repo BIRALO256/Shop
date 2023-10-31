@@ -5,12 +5,15 @@ import 'package:shop/providers/cart.dart';
 import 'package:shop/providers/orders.dart';
 
 import './providers/products_provider.dart';
+import '../Screens/order_screen.dart';
 import '../Screens/product_detail.dart';
 import '../Screens/product_overview.dart';
 
-void main() => runApp(MyAPP());
+void main() => runApp(const MyAPP());
 
 class MyAPP extends StatelessWidget {
+  const MyAPP({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -30,13 +33,14 @@ class MyAPP extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'MyShop',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
         home: const ProductsOverviewScreen(),
         routes: {
           ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
           CartScreen.routeName: (context) => const CartScreen(),
+          OrdersScreen.routeName: (context) => const OrdersScreen()
         },
       ),
     );

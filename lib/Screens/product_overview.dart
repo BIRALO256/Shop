@@ -5,6 +5,7 @@ import 'package:shop/providers/cart.dart';
 
 import '../Wigdets/Product_grid.dart';
 import '../Wigdets/badge.dart';
+import '../Wigdets/drawer.dart';
 
 enum FilterProducts {
   favourite,
@@ -65,6 +66,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           )
         ],
       ),
+      drawer: const MyDrawer(),
       body: ProductGrid(
         showProduct: _showOnlyFavorites,
       ),
