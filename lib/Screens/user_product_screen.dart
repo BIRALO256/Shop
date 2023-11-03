@@ -10,8 +10,6 @@ class UserProductScreen extends StatelessWidget {
   static const routeName = '/user-products';
   const UserProductScreen({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<ProductProvider>(context);

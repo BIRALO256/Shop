@@ -69,4 +69,9 @@ class ProductProvider with ChangeNotifier {
         editedProduct; //overide the product which was initially thire with the new edited product
     notifyListeners();
   }
+
+  void deleteProduct(String iD) {
+    _items.removeWhere((product) => product.id == iD);
+    notifyListeners();
+  }
 }

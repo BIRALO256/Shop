@@ -58,7 +58,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     _form.currentState!
         .save(); //accesing allthe fields in the form to be stored
-    if (_editedProduct.id != null) {
+    if (_editedProduct.id! == null) {
       Provider.of<ProductProvider>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
