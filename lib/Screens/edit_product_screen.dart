@@ -20,6 +20,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       FormState>(); //we are trying to acces the data of the form by creating the form key using the global key and being specific by stating  formState since global key is a generic key
 
   void _saveForm() {
+    final isValid = _form.currentState
+        ?.validate(); // this triggers all the validators in the form
+    if (isValid!) {
+      return;
+    }
     _form.currentState!
         .save(); //accesing allthe fields in the form to be stored
   }
@@ -59,6 +64,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_priceFocuseNode);
                   },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Title sholud not be empty';
+                    }
+                    return null;
+                  },
                   onSaved: (value) {
                     _editedProduct = Products(
                         id: _editedProduct.id,
@@ -75,6 +86,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   focusNode: _priceFocuseNode,
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_descriptionFocusNode);
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Price sholud not be empty';
+                    }
+                    return null;
                   },
                   onSaved: (value) {
                     _editedProduct = Products(
@@ -98,6 +115,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         description: value!,
                         price: _editedProduct.price,
                         imageUrl: _editedProduct.imageUrl);
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Description sholud not be empty';
+                    }
+                    return null;
                   },
                 ),
                 Row(
@@ -131,10 +154,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               price: _editedProduct.price,
                               imageUrl: value!);
                         },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Image sholud not be empty';
+                          }
+                          return null;
+                        },
+
                         onFieldSubmitted: (_) => {
                           //this is the form methode triggered when the form is need to be submited
                           _saveForm()
                         },
+
                         //this is triggerde when a user tries to submit the data in the form
                       ),
                     )
