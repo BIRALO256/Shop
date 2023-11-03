@@ -56,10 +56,17 @@ class ProductProvider with ChangeNotifier {
         description: product.description,
         price: product.price,
         imageUrl: product.imageUrl);
-    // _items.add(newProduct);
+    // _items.add(newProduct);//this just inserts the products in the last inidex of the mapp in the list
     _items.insert(0,
         newProduct); //the new product will be insertedat the start of the list but by defaul it is iserted ata rhe end if you donit use this methode
 
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Products editedProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    _items[prodIndex] =
+        editedProduct; //overide the product which was initially thire with the new edited product
     notifyListeners();
   }
 }
