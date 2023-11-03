@@ -91,6 +91,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     if (value!.isEmpty) {
                       return 'Price sholud not be empty';
                     }
+                    if (double.tryParse(value) == null) {
+                      return 'Enter a valid number';
+                    }
+                    if (double.parse(value) <= 0) {
+                      return 'number should be greater than zero';
+                    }
                     return null;
                   },
                   onSaved: (value) {
@@ -119,6 +125,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Description sholud not be empty';
+                    }
+                    if (value.length < 10) {
+                      return 'Should be atleast 10 characters ';
                     }
                     return null;
                   },
@@ -156,7 +165,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Image sholud not be empty';
+                            return 'Image URL sholud not be empty';
+                          }
+                          if (!value.startsWith('http') ||
+                              !value.startsWith('https')) {
+                            return 'please enter a valid URL';
+                          }
+                          if (!value.endsWith(".png") ||
+                              !value.endsWith('.jpg') ||
+                              !value.endsWith('.jpeg')) {
+                            return 'please enter a valid image URL';
                           }
                           return null;
                         },
