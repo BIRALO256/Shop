@@ -49,8 +49,17 @@ class ProductProvider with ChangeNotifier {
     return _items.where((productItem) => productItem.isFavorite).toList();
   }
 
-  void addProducts() {
-    // _item.add(value);
+  void addProducts(Products product) {
+    final newProduct = Products(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl);
+    // _items.add(newProduct);
+    _items.insert(0,
+        newProduct); //the new product will be insertedat the start of the list but by defaul it is iserted ata rhe end if you donit use this methode
+
     notifyListeners();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/providers/product.dart';
+import 'package:shop/providers/products_provider.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-Product';
@@ -27,6 +29,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
     _form.currentState!
         .save(); //accesing allthe fields in the form to be stored
+    Provider.of<ProductProvider>(context, listen: false).addProducts(
+        _editedProduct); //_editedproduct contains data about thre product needed
+    Navigator.of(context)
+        .pop(); //this will take us to the previous page which is the all products page
   }
 
   @override
