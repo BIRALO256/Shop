@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'product.dart';
 
@@ -50,6 +53,18 @@ class ProductProvider with ChangeNotifier {
   }
 
   void addProducts(Products product) {
+    final url = Uri.parse(
+        'https://shop-e599a-default-rtdb.firebaseio.com/products.json');
+    http.post(
+      url,
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'price': product.price,
+        'imageUrl': product.imageUrl,
+        'isFavorite': product.isFavorite
+      }),
+    ); //after the url, then we define other important part of the post like header,body ofthe request and others more
     final newProduct = Products(
         id: DateTime.now().toString(),
         title: product.title,
