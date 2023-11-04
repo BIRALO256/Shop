@@ -11,10 +11,12 @@ import '../Screens/product_detail.dart';
 import '../Screens/product_overview.dart';
 import '../Screens/user_product_screen.dart';
 
-void main() => runApp(const MyAPP());
+main() async {
+  runApp(const Jovic());
+}
 
-class MyAPP extends StatelessWidget {
-  const MyAPP({super.key});
+class Jovic extends StatelessWidget {
+  const Jovic({super.key});
 
   @override
   Widget build(BuildContext context) {
