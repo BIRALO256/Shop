@@ -52,10 +52,11 @@ class ProductProvider with ChangeNotifier {
     return _items.where((productItem) => productItem.isFavorite).toList();
   }
 
-  void addProducts(Products product) {
+  Future<void> addProducts(Products product) async {
     final url = Uri.parse(
         'https://shop-e599a-default-rtdb.firebaseio.com/products.json');
-    http.post(
+    return http
+        .post(
       url,
       body: json.encode({
         'title': product.title,
@@ -64,18 +65,24 @@ class ProductProvider with ChangeNotifier {
         'imageUrl': product.imageUrl,
         'isFavorite': product.isFavorite
       }),
-    ); //after the url, then we define other important part of the post like header,body ofthe request and others more
-    final newProduct = Products(
-        id: DateTime.now().toString(),
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl);
-    // _items.add(newProduct);//this just inserts the products in the last inidex of the mapp in the list
-    _items.insert(0,
-        newProduct); //the new product will be insertedat the start of the list but by defaul it is iserted ata rhe end if you donit use this methode
+    )
+        .then((response) {
+      //this function runs after receiving the future response ,it is not worked on imediatly ruther after sending the data to the Firebase API , then we run this code in THEN function
 
-    notifyListeners();
+      final newProduct = Products(
+          id: json.decode(response.body)['name'],
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl);
+      // _items.add(newProduct);//this just inserts the products in the last inidex of the mapp in the list
+      _items.insert(0,
+          newProduct); //the new product will be insertedat the start of the list but by defaul it is iserted ata rhe end if you donit use this methode
+
+      notifyListeners();
+    }).catchError((error) {
+      throw error;
+    }); //after the url, then we define other important part of the post like header,body ofthe request and others more
   }
 
   void updateProduct(String id, Products editedProduct) {
