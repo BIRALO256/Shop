@@ -30,7 +30,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       final productId = ModalRoute.of(context)?.settings.arguments
-          as String; //here we are trying to acces the id forwarded when the edit btton is pressed which is used to edit the product
+          as String; //here we are trying to acces the id forwarded when the edit button is pressed which is used to edit the product
       final product = Provider.of<ProductProvider>(context, listen: false)
           .findbyId(productId); //we use the id provided to find the product
       _editedProduct =
