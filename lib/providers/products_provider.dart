@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'product.dart';
 
 class ProductProvider with ChangeNotifier {
-  final List<Products> _items = [
+  List<Products> _items = [
     Products(
       id: 'p1',
       title: 'Red Shirt',
@@ -50,6 +50,31 @@ class ProductProvider with ChangeNotifier {
 
   List<Products> get favoriteItems {
     return _items.where((productItem) => productItem.isFavorite).toList();
+  }
+
+  Future<void> fetchProducts() async {
+    final url = Uri.parse(
+        'https://shop-e599a-default-rtdb.firebaseio.com/products.json');
+    try {
+      final response = await http.get(url);
+      // print(json.decode(response.body));
+      final extractedProduct =
+          json.decode(response.body) as Map<String, dynamic>;
+      final List<Products> loadedProduct = [];
+      extractedProduct.forEach((productID, productData) {
+        loadedProduct.add(Products(
+            id: productID,
+            title: productData['title'],
+            description: productData['description'],
+            price: productData['price'],
+            imageUrl: productData['imageUrl'],
+            isFavorite: productData['isFavorite']));
+      });
+      _items = loadedProduct;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> addProducts(Products product) async {

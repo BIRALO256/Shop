@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Screens/cart_screen.dart';
 import 'package:shop/providers/cart.dart';
+import 'package:shop/providers/products_provider.dart';
 
 import '../Wigdets/Product_grid.dart';
 import '../Wigdets/badge.dart';
@@ -22,6 +23,26 @@ class ProductsOverviewScreen extends StatefulWidget {
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   // ignore: unused_field
   var _showOnlyFavorites = false;
+  var _isInt = true;
+
+  // @override
+  // void initState() {
+  //   // Provider.of<ProductProvider>(context).fetchProducts();//won't work
+  //   Future.delayed(Duration.zero).then((_) {
+  //     Provider.of<ProductProvider>(context).fetchProducts();
+  //   });
+  //   super.initState();
+  // }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInt) {
+      Provider.of<ProductProvider>(context).fetchProducts();
+    }
+    _isInt = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
