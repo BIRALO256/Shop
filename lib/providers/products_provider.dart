@@ -55,20 +55,17 @@ class ProductProvider with ChangeNotifier {
   Future<void> addProducts(Products product) async {
     final url = Uri.parse(
         'https://shop-e599a-default-rtdb.firebaseio.com/products.json');
-    return http
-        .post(
-      url,
-      body: json.encode({
-        'title': product.title,
-        'description': product.description,
-        'price': product.price,
-        'imageUrl': product.imageUrl,
-        'isFavorite': product.isFavorite
-      }),
-    )
-        .then((response) {
-      //this function runs after receiving the future response ,it is not worked on imediatly ruther after sending the data to the Firebase API , then we run this code in THEN function
-
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'price': product.price,
+          'imageUrl': product.imageUrl,
+          'isFavorite': product.isFavorite
+        }),
+      );
       final newProduct = Products(
           id: json.decode(response.body)['name'],
           title: product.title,
@@ -80,9 +77,12 @@ class ProductProvider with ChangeNotifier {
           newProduct); //the new product will be insertedat the start of the list but by defaul it is iserted ata rhe end if you donit use this methode
 
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       throw error;
-    }); //after the url, then we define other important part of the post like header,body ofthe request and others more
+    }
+    //this function runs after receiving the future response ,it is not worked on imediatly ruther after sending the data to the Firebase API , then we run this code in THEN function
+
+    //after the url, then we define other important part of the post like header,body ofthe request and others more
   }
 
   void updateProduct(String id, Products editedProduct) {

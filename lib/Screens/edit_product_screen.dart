@@ -51,7 +51,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _form = GlobalKey<
       FormState>(); //we are trying to acces the data of the form by creating the form key using the global key and being specific by stating  formState since global key is a generic key
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState
         ?.validate(); // this triggers all the validators in the form
     if (isValid!) {
@@ -71,10 +71,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
       });
       Navigator.of(context).pop();
     } else {
-      Provider.of<ProductProvider>(context, listen: false)
-          .addProducts(_editedProduct)
-          .catchError((error) {
-        return showDialog(
+      try {
+        await Provider.of<ProductProvider>(context, listen: false)
+            .addProducts(_editedProduct);
+      } catch (error) {
+      // ignore: use_build_context_synchronously
+      await  showDialog(
             context: context,
             builder: (context) => AlertDialog(
                   title: const Text('An error ocurred'),
@@ -87,13 +89,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         })
                   ],
                 ));
-      }).then((_) {
+      } finally {
         setState(() {
           _isLoading = false;
         });
-        Navigator.of(context)
-            .pop(); //since the add function returns a future that's y it's okay to use the then function here
-      }); //_editedproduct contains data about thre product needed
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
+      }
+
+      //since the add function returns a future that's y it's okay to use the then function here
+      //_editedproduct contains data about thre product needed
 
       // Navigator.of(context).pop();
     } //this will take us to the previous page which is the all products page
