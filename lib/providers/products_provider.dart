@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -133,7 +134,9 @@ class ProductProvider with ChangeNotifier {
     final existingProductIndex = _items.indexWhere((prod) => prod.id == iD);
     var existingProduct = _items[existingProductIndex];
     http.delete(url).then((response) {
-      if (response.statusCode >= 400) {}
+      if (response.statusCode >= 400) {
+        throw const HttpException('Could not delete product');
+      }
       // existingProduct = Null;
     }).catchError((_) {
       _items.insert(existingProductIndex, existingProduct);
