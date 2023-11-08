@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:shop/providers/product.dart';
 import 'package:shop/providers/products_provider.dart';
 
-
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-Product';
 
@@ -65,19 +64,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
 
     if (_editedProduct.id! == null) {
-      Provider.of<ProductProvider>(context, listen: false)
+      await Provider.of<ProductProvider>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     } else {
       try {
         await Provider.of<ProductProvider>(context, listen: false)
             .addProducts(_editedProduct);
       } catch (error) {
-      // ignore: use_build_context_synchronously
-      await  showDialog(
+        // ignore: use_build_context_synchronously
+        await showDialog(
             context: context,
             builder: (context) => AlertDialog(
                   title: const Text('An error ocurred'),
@@ -90,13 +85,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         })
                   ],
                 ));
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pop();
       }
+      //  finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   // ignore: use_build_context_synchronously
+      //   Navigator.of(context).pop();
+      // }
+        setState(() {
+        _isLoading = false;
+      });
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
 
       //since the add function returns a future that's y it's okay to use the then function here
       //_editedproduct contains data about thre product needed

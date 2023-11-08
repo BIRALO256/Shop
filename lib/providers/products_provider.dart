@@ -110,14 +110,35 @@ class ProductProvider with ChangeNotifier {
     //after the url, then we define other important part of the post like header,body ofthe request and others more
   }
 
-  void updateProduct(String id, Products editedProduct) {
+  Future<void> updateProduct(String id, Products editedProduct) async {
+    final url = Uri.parse(
+        'https://shop-e599a-default-rtdb.firebaseio.com/products/$id.json');
+    await http.patch(url,
+        body: json.encode({
+          'description': editedProduct.description,
+          'imageUrl': editedProduct.imageUrl,
+          'price': editedProduct.price,
+          'title': editedProduct.title,
+        }));
+    // try {} catch (error) {}
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     _items[prodIndex] =
-        editedProduct; //overide the product which was initially thire with the new edited product
+        editedProduct; //overide the product which was initially there with the new edited product
     notifyListeners();
   }
 
   void deleteProduct(String iD) {
+    final url = Uri.parse(
+        'https://shop-e599a-default-rtdb.firebaseio.com/products/$iD.json');
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == iD);
+    var existingProduct = _items[existingProductIndex];
+    http.delete(url).then((response) {
+      if (response.statusCode >= 400) {}
+      // existingProduct = Null;
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners(); // incase you face an error in deleting the prduct is re inserted in the list , meaning not deleted officially
+    });
     _items.removeWhere((product) => product.id == iD);
     notifyListeners();
   }
