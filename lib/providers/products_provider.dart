@@ -128,21 +128,26 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteProduct(String iD) {
+  Future<void> deleteProduct(String iD) async {
     final url = Uri.parse(
         'https://shop-e599a-default-rtdb.firebaseio.com/products/$iD.json');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == iD);
     var existingProduct = _items[existingProductIndex];
-    http.delete(url).then((response) {
-      if (response.statusCode >= 400) {
-        throw const HttpException('Could not delete product');
-      }
-      // existingProduct = Null;
-    }).catchError((_) {
-      _items.insert(existingProductIndex, existingProduct);
-      notifyListeners(); // incase you face an error in deleting the prduct is re inserted in the list , meaning not deleted officially
-    });
-    _items.removeWhere((product) => product.id == iD);
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw const HttpException('Could not delete product');
+
+      // existingProduct = Null;
+
+      // incase you face an error in deleting the prduct is re inserted in the list , meaning not deleted officially
+
+      // _items.removeWhere((product) => product.id == iD);
+      // notifyListeners();
+    }
   }
 }
