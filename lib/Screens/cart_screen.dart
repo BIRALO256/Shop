@@ -46,7 +46,7 @@ class CartScreen extends StatelessWidget {
                       cart.clearCart();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink.shade300, // Button background color
+                      backgroundColor: Colors.pink.shade300, // Button background color
                     ),
                     child: const Text(
                       'ORDER NOW',
